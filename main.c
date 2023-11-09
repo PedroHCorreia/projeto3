@@ -1,9 +1,8 @@
 //Pedro Henrique Correia de Oliveira 22.222.009-7
-//Danilo
 //Turma: 610
 //Disciplina: CC2632
 
-//Projeto 1 - Gerenciamento de tarefas
+//Projeto 3
 
 #include <stdio.h>
 #include "projeto.h"
