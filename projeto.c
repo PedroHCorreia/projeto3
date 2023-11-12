@@ -78,6 +78,118 @@ int estadoTarefa(ListaDeTarefas *lt) {
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
+// Função de alteração
+int alterarTarefa(ListaDeTarefas *lt) {
+
+  int controle, verifica = 1, escolha;
+
+  // Listando as tarefas e verificando o retorno da função
+  controle = listarTarefas(*lt);
+  if (controle != 0) {
+    printf("\nErro ao tentar executar a funcao listar :(\n");
+  }
+
+  // Opção 0 para cancelar a alteracao
+  printf("\n0 - Cancelar.\n");
+
+  printf(
+      "\nDigite o numero da funcao que deseja alterar ou 0 para cancelar:\n");
+  scanf(" %d", &escolha);
+  // limpar buffer
+  getchar();
+
+  // Cancelando a alteração
+  if (escolha == 0) {
+    verifica = 0;
+    printf("\n\nCancelado!\n");
+  }
+
+  // Iniciando a alteração
+  else {
+
+    // Percorrendo a ListaDeTarefas e comparando o número digitado com o
+    // número da tarefa
+    for (int i = 0; i < lt->qtd; i++) { // Laço 1
+      if (i + 1 == escolha) {
+        char campo;
+
+        printf("\n\nCampos:\n1 - Prioridade;\n2 - Categoria;\n3 - "
+               "Descricao;\n4 - Estado;\n");
+
+        // Alterando a tarefa
+        printf("\nDigite o numero do campo que deseja alterar: ");
+        scanf(" %c", &campo);
+        // limpar buffer
+        getchar();
+
+        switch (campo) {
+        case '1':
+
+          // prioridade
+          printf("\nDigite a nova prioridade: ");
+          scanf("%d", &lt->tarefas[i].prioridade);
+          // limpar buffer
+          getchar();
+          printf("\n\nTarefa Alterada!\n");
+          break;
+
+        case '2':
+
+          // categoria
+          printf("\nDigite a nova categoria: ");
+          scanf("%[^\n]", lt->tarefas[i].categoria);
+          // limpar buffer
+          getchar();
+          printf("\n\nTarefa Alterada!\n");
+          break;
+
+        case '3':
+
+          // descricao
+          printf("\nDigite a nova descricao: ");
+          scanf("%[^\n]", lt->tarefas[i].descricao);
+          // limpar buffer
+          getchar();
+          printf("\n\nTarefa Alterada!\n");
+          break;
+
+        case '4':
+          // estado
+          controle = estadoTarefa(lt, i);
+          if (controle != 0) {
+            printf("\nErro ao tentar executar a funcao 'estadoTarefa' :(\n");
+          }
+          printf("\n\nTarefa Alterada!\n");
+          break;
+
+        default:
+          printf("\nDigite uma opcao valida!\n");
+          break;
+        }
+
+        // Atualizando a variável que verifica se a tarefa foi encontrada
+        verifica = 0;
+        // Saindo do laço 1
+        break;
+      }
+    }
+    // Caso a tarefa não seja encontrada
+    if (verifica == 1) {
+      printf("\n\nTarefa não encontrada\n");
+    }
+
+    // Guardando a nova struct em um arquivo binário e verificando retorno da
+    // função
+    controle = salvarTarefas(lt);
+    if (controle != 0) {
+      printf("\nErro ao tentar executar a funcao :(\n");
+    }
+  }
+  return 0;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+
 // Função de delete
 int deletarTarefa(ListaDeTarefas *lt) {
 
