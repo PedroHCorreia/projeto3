@@ -300,6 +300,7 @@ void printMenu() {
   printf("1 - Cadastrar tarefa.\n");
   printf("2 - Deletar tarefa.\n");
   printf("3 - Listar tarefas.\n");
+  printf("4 - Alterar tarefas.\n");
   printf("0 - Sair.\n\n");
 }
 
