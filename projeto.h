@@ -18,7 +18,11 @@ int cadastrarTarefa(ListaDeTarefas *lt);
 
 // Função para adicionar/modificar o estado da tarefa, que recebe um
 // ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
-int estadoTarefa(ListaDeTarefas *lt);
+int estadoTarefa(ListaDeTarefas *lt, int num_tarefa);
+
+// Função para alterar algum dado da tarefa, que recebe um
+// ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
+int alterarTarefa(ListaDeTarefas *lt);
 
 // Função para deletar tarefas, que recebe um ponteiro de ListaDeTarefas como
 // parâmetro e retorna um inteiro
