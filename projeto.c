@@ -41,28 +41,28 @@ int cadastrarTarefa(ListaDeTarefas *lt) {
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 // Função para mudar o estado da tarefa
-int estadoTarefa(ListaDeTarefas *lt) {
+int estadoTarefa(ListaDeTarefas *lt, int num_tarefa) {
 
   char escolha;
 
-  printf("\nEscolha o estado da tarefa:\n1 - Nao iniciada;\n2 - Em "
-         "andamento;\n3 - Completa;\n");
+  printf("\n1 - Nao iniciada;\n2 - Em "
+         "andamento;\n3 - Completa;\n\nEscolha o estado da tarefa: ");
   do {
-    scanf(" %c", &escolha);
+    scanf("%c", &escolha);
     // limpar buffer
     getchar();
 
     switch (escolha) {
     case '1':
-      strcpy(lt->tarefas[lt->qtd].estado, "Nao iniciado");
+      strcpy(lt->tarefas[num_tarefa].estado, "Nao iniciado");
       break;
 
     case '2':
-      strcpy(lt->tarefas[lt->qtd].estado, "Em andamento");
+      strcpy(lt->tarefas[num_tarefa].estado, "Em andamento");
       break;
 
     case '3':
-      strcpy(lt->tarefas[lt->qtd].estado, "Completa");
+      strcpy(lt->tarefas[num_tarefa].estado, "Completa");
       break;
 
     default:
