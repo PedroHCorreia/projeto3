@@ -41,6 +41,7 @@ int main(void) {
         printf("\nErro ao tentar executar a funcao :(\n");
       }
     }
+      
     //Número 2 chama a função deletar
     else if (opcao == 2){
       printf("Funcao 2 - Deletar\n");
@@ -51,6 +52,7 @@ int main(void) {
         printf("\nErro ao tentar executar a funcao :(\n");
       }
     }
+      
     //Número 3 chama a função listar
     else if (opcao == 3){
       printf("Funcao 3 - Listar\n");
@@ -61,6 +63,18 @@ int main(void) {
         printf("\nErro ao tentar executar a funcao :(\n");
       }
     }
+      
+    // Número 4 chama a função alterar
+    else if (opcao == 4) {
+      printf("Funcao 4 - alterar\n");
+
+      // Chamando a função de lista e verificando seu retorno
+      controle = alterarTarefa(&ListaGeral);
+      if (controle != 0) {
+        printf("\nErro ao tentar executar a funcao alterar :(\n");
+      }
+    }
+      
     //Qualquer outro digito além de 0, 1, 2 ou 3 informará ao usuário que a opção escolhida não é válida e repetirá o menu
     else if (opcao != 0){
       printf("Opcao invalida :(\n");
