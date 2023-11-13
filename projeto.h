@@ -17,7 +17,7 @@ typedef struct {
 int cadastrarTarefa(ListaDeTarefas *lt);
 
 // Função para adicionar/modificar o estado da tarefa, que recebe um
-// ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
+// ponteiro de ListaDeTarefas e um inteiro como parâmetro e retorna um inteiro
 int estadoTarefa(ListaDeTarefas *lt, int num_tarefa);
 
 // Função para alterar algum dado da tarefa, que recebe um
@@ -42,3 +42,20 @@ int salvarTarefas(ListaDeTarefas *lt);
 // Função para salvar tarefas lidas de um arquivo binário, que recebe um
 // ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
 int carregarTarefas(ListaDeTarefas *lt);
+
+// Função para imprimir as tarefas, que recebe um
+// ponteiro de ListaDeTarefas e um inteiro como parâmetro e retorna um inteiro
+int imprimirTarefas(ListaDeTarefas *lt, int numTarefa);
+
+// Função para filtrar tarefas pela prioridade, que recebe um
+// ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
+int filtrar_Prioridade(ListaDeTarefas *lt);
+
+// Função para filtrar tarefas pelo estado, que recebe um
+// ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
+int filtrar_Estado(ListaDeTarefas *lt);
+
+// Função para filtrar tarefas pela categoria, que recebe um
+// ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
+int filtrar_Categoria(ListaDeTarefas *lt);
+
