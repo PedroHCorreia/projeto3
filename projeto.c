@@ -11,16 +11,22 @@ int cadastrarTarefa(ListaDeTarefas *lt) {
   // Lendo a prioridade da tarefa
   printf("Digite a prioridade da tarefa: ");
   scanf("%d", &lt->tarefas[lt->qtd].prioridade);
+  // limpar buffer
+  getchar();
 
   // Lendo a descrição da tarefa
   printf("Digite a descricao da tarefa: ");
   scanf(" %[^\n]", lt->tarefas[lt->qtd].descricao);
+  // limpar buffer
+  getchar();
 
   // Lendo a categoria da tarefa
   printf("Digite a categoria da tarefa: ");
   scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
+  // limpar buffer
+  getchar();
 
-  controle = estadoTarefa(lt);
+  controle = estadoTarefa(lt, lt->qtd);
   if (controle != 0) {
     printf("\nErro ao tentar executar a funcao 'estadoTarefa' :(\n");
   }
@@ -66,7 +72,7 @@ int estadoTarefa(ListaDeTarefas *lt, int num_tarefa) {
       break;
 
     default:
-      printf("\nDigite uma opcao valida!\n");
+      printf("\nDigite uma opcao valida: ");
       escolha = '0';
       break;
     }
@@ -197,59 +203,55 @@ int deletarTarefa(ListaDeTarefas *lt) {
   // encontrada - ler o número da tarefa a ser deletada
   int controle, verifica = 1, num_tarefa;
 
-  // Verificando se existe alguma tarefa cadastrada
-  if (lt->qtd == 0) {
-    printf("\nNao existem tarefas cadastradas.\n");
-  } else {
-    // Listando as tarefas e verificando o retorno da função
-    controle = listarTarefas(*lt);
-    if (controle != 0) {
-      printf("\nErro ao tentar executar a funcao :(\n");
-    }
+  // Listando as tarefas e verificando o retorno da função
+  controle = listarTarefas(*lt);
+  if (controle != 0) {
+    printf("\nErro ao tentar executar a funcao :(\n");
+  }
 
-    // Opção 0 para cancelar o delete
-    printf("\n0 - Cancelar.\n");
+  // Opção 0 para cancelar o delete
+  printf("\n0 - Cancelar.\n");
 
-    // Lendo o número da tarefa ou o 0
-    printf(
-        "\nDigite o numero da tarefa que deseja apagarn ou 0 para cancelar: ");
-    scanf("%d", &num_tarefa);
+  // Lendo o número da tarefa ou o 0
+  printf("\nDigite o numero da tarefa que deseja apagar ou 0 para cancelar: ");
+  scanf("%d", &num_tarefa);
+  // limpar buffer
+  getchar();
 
-    // Cancelando o delete
-    if (num_tarefa == 0) {
-      verifica = 0;
-      printf("\n\nCancelado!\n");
-    }
+  // Cancelando o delete
+  if (num_tarefa == 0) {
+    verifica = 0;
+    printf("\n\nCancelado!\n");
+  }
 
-    // Iniciando o delete
-    else {
+  // Iniciando o delete
+  else {
 
-      // Percorrendo a ListaDeTarefas e comparando o número digitado com o
-      // número da tarefa
-      for (int i = 0; i < lt->qtd; i++) { // Laço 1
-        if (i + 1 == num_tarefa) {
+    // Percorrendo a ListaDeTarefas e comparando o número digitado com o
+    // número da tarefa
+    for (int i = 0; i < lt->qtd; i++) { // Laço 1
+      if (i + 1 == num_tarefa) {
 
-          // Atualizando o resto da ListaDeTarefas pelo índice.
-          // Adicionando o conteúdo da próxima struct Tarefa (próximo índice da
-          // struct ListaDeTarefas) à atual struct Tarefa
-          for (int j = i; j < lt->qtd - 1; j++) { // Laço 2
-            lt->tarefas[j] = lt->tarefas[j + 1];
-          }
-
-          // Reduzindo o número de tarefas
-          lt->qtd -= 1;
-          printf("\n\nTarefa Apagada!\n");
-          // Atualizando a variável que verifica se a tarefa foi encontrada
-          verifica = 0;
-          // Saindo do laço 1
-          break;
+        // Atualizando o resto da ListaDeTarefas pelo índice.
+        // Adicionando o conteúdo da próxima struct Tarefa (próximo índice da
+        // struct ListaDeTarefas) à atual struct Tarefa
+        for (int j = i; j < lt->qtd - 1; j++) { // Laço 2
+          lt->tarefas[j] = lt->tarefas[j + 1];
         }
+
+        // Reduzindo o número de tarefas
+        lt->qtd -= 1;
+        printf("\n\nTarefa Apagada!\n");
+        // Atualizando a variável que verifica se a tarefa foi encontrada
+        verifica = 0;
+        // Saindo do laço 1
+        break;
       }
     }
-    // Caso a tarefa não seja encontrada
-    if (verifica == 1) {
-      printf("\n\nTarefa não encontrada\n");
-    }
+  }
+  // Caso a tarefa não seja encontrada
+  if (verifica == 1) {
+    printf("\n\nTarefa não encontrada\n");
   }
 
   // Guardando a nova struct em um arquivo binário e verificando retorno da
@@ -270,23 +272,89 @@ int listarTarefas(ListaDeTarefas lt) {
   // Verificando se existe alguma tarefa cadastrada
   if (lt.qtd == 0) {
     printf("\nNao existem tarefas cadastradas.\n");
+    return 1;
   }
   // Caso exista
   else {
-    // Mostrando a quantidade de tarefas cadastradas
-    printf("Quantidade de tarefas: %d\n", lt.qtd);
 
-    // Printando todas as tarefas
-    for (int i = 0; i < lt.qtd; i++) {
+    int controle;
+    char escolha;
 
-      printf("\nTarefa %d:\n", i + 1); // Número
-      printf("Prioridade da tarefa: %d\n",
-             lt.tarefas[i].prioridade); // Prioridade
-      printf("Descricao da tarefa: %s\n", lt.tarefas[i].descricao); // Descrição
-      printf("Categoria da tarefa: %s\n", lt.tarefas[i].categoria); // Categoria
-      printf("Estado da tarefa: %s\n", lt.tarefas[i].estado);    // Estado
+    printf("\n1 - Sim;\n2 - Nao;\n\nDeseja filtrar as tarefas? ");
+    scanf(" %c", &escolha);
+    // limpar buffer
+    getchar();
+
+    if (escolha == '1') {
+
+      char esc_filtro;
+
+      printf("\n1 - Prioridade;\n2 - Estado;\n3 - Categoria;\n4 - Prioridade e "
+             "Categoria;\n\nDigite qual filtro deseja: ");
+      scanf(" %c", &esc_filtro);
+      // limpar buffer
+      getchar();
+
+      switch (esc_filtro) {
+
+      case '1':
+
+        printf("\nPrioridade:\n");
+        // Imprimindo as tarefas e verificando o retorno da função
+        controle = filtrar_Prioridade(&lt);
+        if (controle != 0) {
+          printf("\nErro ao tentar executar a funcao :(\n");
+        }
+
+        break;
+      case '2':
+        printf("\nEstado:\n");
+        // Imprimindo as tarefas e verificando o retorno da função
+        controle = filtrar_Estado(&lt);
+        if (controle != 0) {
+          printf("\nErro ao tentar executar a funcao :(\n");
+        }
+
+        break;
+
+      case '3':
+        printf("\nCategoria:\n");
+        // Imprimindo as tarefas e verificando o retorno da função
+        controle = filtrar_Categoria(&lt);
+        if (controle != 0) {
+          printf("\nErro ao tentar executar a funcao :(\n");
+        }
+        break;
+
+      case '4':
+        printf("\n4 - Prioridade e Categoria;\n");
+        break;
+
+      default:
+        printf("\nDigite uma opcao valida!\n");
+        break;
+      }
+    }
+
+    else if (escolha == '2') {
+
+      // Mostrando a quantidade de tarefas cadastradas
+      printf("Quantidade de tarefas: %d\n", lt.qtd);
+
+      // Printando todas as tarefas
+      for (int i = 0; i < lt.qtd; i++) {
+
+        // Imprimindo as tarefas e verificando o retorno da função
+        controle = imprimirTarefas(&lt, i);
+        if (controle != 0) {
+          printf("\nErro ao tentar executar a funcao :(\n");
+        }
+      }
+    } else {
+      printf("\nOpcao invalida!\n");
     }
   }
+
   return 0;
 }
 
@@ -315,8 +383,8 @@ int salvarTarefas(ListaDeTarefas *lt) {
   // Verificando se foi possível abrir e escrever o arquivo
   if (f == NULL) {
     printf("Erro ao escrever o arquivo.\n");
-    // Caso não seja possível abrir ou escrever o arquivo, retorna 1 encerrando
-    // a função
+    // Caso não seja possível abrir ou escrever o arquivo, retorna 1
+    // encerrando a função
     return 1;
   }
 
@@ -357,5 +425,139 @@ int carregarTarefas(ListaDeTarefas *lt) {
 
   // Fechando o arquivo
   fclose(f);
+  return 0;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+int imprimirTarefas(ListaDeTarefas *lt, int numTarefa) {
+
+  printf("\nTarefa %d:\n", numTarefa + 1); // Número
+  printf("Prioridade da tarefa: %d\n",
+         lt->tarefas[numTarefa].prioridade); // Prioridade
+  printf("Descricao da tarefa: %s\n",
+         lt->tarefas[numTarefa].descricao); // Descrição
+  printf("Categoria da tarefa: %s\n",
+         lt->tarefas[numTarefa].categoria);                        // Categoria
+  printf("Estado da tarefa: %s\n", lt->tarefas[numTarefa].estado); // Estado
+
+  return 0;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+int filtrar_Prioridade(ListaDeTarefas *lt) {
+
+  int prioridade, controle;
+
+  printf("\nDigite qual prioridade deseja: ");
+  scanf("%d", &prioridade);
+  // limpar buffer
+  getchar();
+
+  for (int i = 0; i < lt->qtd; i++) {
+    if (prioridade == lt->tarefas[i].prioridade) {
+
+      // Imprimindo as tarefas e verificando o retorno da função
+      controle = imprimirTarefas(lt, i);
+      if (controle != 0) {
+        printf("\nErro ao tentar executar a funcao :(\n");
+      }
+    }
+  }
+
+  return 0;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+int filtrar_Estado(ListaDeTarefas *lt) {
+
+  int esc_estado, controle;
+  char estado[13];
+
+  printf("\n1 - Nao iniciada;\n2 - Em "
+         "andamento;\n3 - Completa;\n\nEscolha o estado da tarefa: ");
+  scanf("%d", &esc_estado);
+  // limpar buffer
+  getchar();
+
+  if (esc_estado == 1) {
+    strcpy(estado, "Nao iniciado");
+  } else if (esc_estado == 2) {
+    strcpy(estado, "Em andamento");
+  } else if (esc_estado == 3) {
+    strcpy(estado, "Completa");
+  } else {
+    printf("\nOpcao invalida!\n");
+  }
+
+  for (int i = 0; i < lt->qtd; i++) {
+    if (!strcmp(estado, lt->tarefas[i].estado)) {
+      // Imprimindo as tarefas e verificando o retorno da função
+      controle = imprimirTarefas(lt, i);
+      if (controle != 0) {
+        printf("\nErro ao tentar executar a funcao :(\n");
+      }
+    }
+  }
+
+  return 0;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+int filtrar_Categoria(ListaDeTarefas *lt) {
+
+  int controle, lista_prioridades[100], qtd_filtro = 0, aux, n;
+  char categoria[100];
+
+  // Lendo a categoria da tarefa
+  printf("Digite a categoria da tarefa: ");
+  scanf(" %[^\n]", categoria);
+  // limpar buffer
+  getchar();
+
+  for (int i = 0; i < lt->qtd; i++) {
+    if (!strcmp(categoria, lt->tarefas[i].categoria)) {
+
+      lista_prioridades[qtd_filtro] = lt->tarefas[i].prioridade;
+      qtd_filtro++;
+    }
+  }
+
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = 0; j < n - i - 1; j++) {
+
+      if (lista_prioridades[j] < lista_prioridades[j + 1]) {
+        aux = lista_prioridades[j];
+        lista_prioridades[j] = lista_prioridades[j + 1];
+        lista_prioridades[j + 1] = aux;
+      }
+    }
+  }
+
+
+  for (int i = 0; i < qtd_filtro; i++) {
+
+    if (lista_prioridades[i - 1] == lista_prioridades[i]) {
+      lista_prioridades[i] = lista_prioridades[i + 1];
+      qtd_filtro--;
+    }
+  }
+
+  for (int i = 0; i < qtd_filtro; i++) {
+    for (int j = 0; j < lt->qtd; j++) {
+      if (lista_prioridades[i] == lt->tarefas[j].prioridade &&
+          !strcmp(categoria, lt->tarefas[j].categoria)) {
+        // Imprimindo as tarefas e verificando o retorno da função
+        controle = imprimirTarefas(lt, j);
+        if (controle != 0) {
+          printf("\nErro ao tentar executar a funcao :(\n");
+        }
+      }
+    }
+  }
+
   return 0;
 }
